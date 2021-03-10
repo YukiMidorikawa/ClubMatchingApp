@@ -24,9 +24,9 @@ struct Service {
         var users = [User]()
     
         let query = COLLECTION_USERS
-            .whereField("age", isGreaterThanOrEqualTo: user.minSeekingAge)
-            .whereField("age", isLessThanOrEqualTo: user.maxSeekingAge)
-//            .whereField("gender", isEqualTo: "男")
+//            .whereField("age", isGreaterThanOrEqualTo: user.minSeekingAge)
+//            .whereField("age", isLessThanOrEqualTo: user.maxSeekingAge)
+            .whereField("gender", isNotEqualTo: user.gender)
         
         fetchSwipes { (swipedUserIDs) in
             query.getDocuments { (snapShot, error) in

@@ -14,7 +14,7 @@ enum SettingsSections: Int, CaseIterable {
     case bio
     case gender
     case club
-    case ageRange
+//    case ageRange
     
     var discription: String {
         switch self {
@@ -24,7 +24,7 @@ enum SettingsSections: Int, CaseIterable {
         case .bio: return "Bio"
         case .gender: return "man or female"
         case .club: return "favorite or being club"
-        case .ageRange: return "Seeking Age Range"
+//        case .ageRange: return "Seeking Age Range"
         }
     }
 }
@@ -38,7 +38,7 @@ struct SettingsViewModel {
     var value: String?
     
     var shouldHideInputTextField: Bool {
-        return sections == .ageRange || sections == .gender || sections == .club
+        return sections == .gender || sections == .club
     }
     
     var shouldHideGenderPicker: Bool {
@@ -49,9 +49,9 @@ struct SettingsViewModel {
         return sections != .club
     }
     
-    var shouldHideSlider: Bool {
-        return sections != .ageRange
-    }
+//    var shouldHideSlider: Bool {
+//        return sections != .ageRange
+//    }
     
     var minAgeSliderValue: Float {
         return Float(user.minSeekingAge)
@@ -90,8 +90,8 @@ struct SettingsViewModel {
             value = user.gender
         case .club:
             value = user.club
-        case .ageRange:
-            break
+//        case .ageRange:
+//            break
         }
     }
     
