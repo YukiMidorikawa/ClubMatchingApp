@@ -11,7 +11,7 @@ protocol SettingsCellDelegate: class {
     func settingsCell(_ cell: SettingCell, wantsToUpdateUserWith value: String,
                       for section: SettingsSections)
     
-    func settingsCell(_ cell: SettingCell, wantsToUpdateAgeRangeWith sender: UISlider)
+//    func settingsCell(_ cell: SettingCell, wantsToUpdateAgeRangeWith sender: UISlider)
 }
 
 class SettingCell: UITableViewCell {
@@ -85,8 +85,8 @@ class SettingCell: UITableViewCell {
     let minAgeLabel = UILabel()
     let maxAgeLabel = UILabel()
     
-    lazy var minAgeSlider = createAgeRangeSlider()
-    lazy var maxAgeSlider = createAgeRangeSlider()
+//    lazy var minAgeSlider = createAgeRangeSlider()
+//    lazy var maxAgeSlider = createAgeRangeSlider()
     
     // MARK: - Lifecycle
     
@@ -104,19 +104,19 @@ class SettingCell: UITableViewCell {
         contentView.addSubview(clubTextField)
         clubTextField.fillSuperview()
         
-        let minStack = UIStackView(arrangedSubviews: [minAgeLabel, minAgeSlider])
-        minStack.spacing = 24
+//        let minStack = UIStackView(arrangedSubviews: [minAgeLabel, minAgeSlider])
+//        minStack.spacing = 24
+//
+//        let maxStack = UIStackView(arrangedSubviews: [maxAgeLabel, maxAgeSlider])
+//        maxStack.spacing = 24
+//
+//        sliderStack = UIStackView(arrangedSubviews: [minStack, maxStack])
+//        sliderStack.axis = .vertical
+//        sliderStack.spacing = 16
         
-        let maxStack = UIStackView(arrangedSubviews: [maxAgeLabel, maxAgeSlider])
-        maxStack.spacing = 24
-        
-        sliderStack = UIStackView(arrangedSubviews: [minStack, maxStack])
-        sliderStack.axis = .vertical
-        sliderStack.spacing = 16
-        
-        contentView.addSubview(sliderStack)
-        sliderStack.centerY(inView: self)
-        sliderStack.anchor(left: leftAnchor, right: rightAnchor, paddingLeft: 24, paddingRight: 24)
+//        contentView.addSubview(sliderStack)
+//        sliderStack.centerY(inView: self)
+//        sliderStack.anchor(left: leftAnchor, right: rightAnchor, paddingLeft: 24, paddingRight: 24)
         
     }
     
@@ -131,15 +131,15 @@ class SettingCell: UITableViewCell {
         delegate?.settingsCell(self, wantsToUpdateUserWith: value, for: viewModel.sections)
     }
     
-    @objc func handleAgeRangeChange(sender: UISlider) {
-        if sender == minAgeSlider {
-            minAgeLabel.text = viewModel.minAgeLabelText(forValue: sender.value)
-        } else {
-            maxAgeLabel.text = viewModel.maxAgeLabelText(forValue: sender.value)
-        }
-        
-        delegate?.settingsCell(self, wantsToUpdateAgeRangeWith: sender)
-    }
+//    @objc func handleAgeRangeChange(sender: UISlider) {
+//        if sender == minAgeSlider {
+//            minAgeLabel.text = viewModel.minAgeLabelText(forValue: sender.value)
+//        } else {
+//            maxAgeLabel.text = viewModel.maxAgeLabelText(forValue: sender.value)
+//        }
+//
+//        delegate?.settingsCell(self, wantsToUpdateAgeRangeWith: sender)
+//    }
     
     @objc func genderDone() {
         genderTextField.endEditing(true)
@@ -155,7 +155,7 @@ class SettingCell: UITableViewCell {
     
     func configure() {
         inputTextField.isHidden = viewModel.shouldHideInputTextField
-        sliderStack.isHidden = viewModel.shouldHideSlider
+//        sliderStack.isHidden = viewModel.shouldHideSlider
         genderTextField.isHidden = viewModel.shouldHideGenderPicker
         clubTextField.isHidden = viewModel.shouldHideClubPicker
         
@@ -168,21 +168,21 @@ class SettingCell: UITableViewCell {
         clubTextField.placeholder = viewModel.placeholderText
         clubTextField.text = viewModel.value
         
-        minAgeLabel.text = viewModel.minAgeLabelText(forValue: viewModel.minAgeSliderValue)
-        maxAgeLabel.text = viewModel.maxAgeLabelText(forValue: viewModel.maxAgeSliderValue)
-
-        minAgeSlider.setValue(viewModel.minAgeSliderValue, animated: true)
-        maxAgeSlider.setValue(viewModel.maxAgeSliderValue, animated: true)
+//        minAgeLabel.text = viewModel.minAgeLabelText(forValue: viewModel.minAgeSliderValue)
+//        maxAgeLabel.text = viewModel.maxAgeLabelText(forValue: viewModel.maxAgeSliderValue)
+//
+//        minAgeSlider.setValue(viewModel.minAgeSliderValue, animated: true)
+//        maxAgeSlider.setValue(viewModel.maxAgeSliderValue, animated: true)
 
     }
     
-    func createAgeRangeSlider() -> UISlider {
-        let slider = UISlider()
-        slider.minimumValue = 18
-        slider.maximumValue = 60
-        slider.addTarget(self, action: #selector(handleAgeRangeChange), for: .valueChanged)
-        return slider
-    }
+//    func createAgeRangeSlider() -> UISlider {
+//        let slider = UISlider()
+//        slider.minimumValue = 18
+//        slider.maximumValue = 60
+//        slider.addTarget(self, action: #selector(handleAgeRangeChange), for: .valueChanged)
+//        return slider
+//    }
     
     func createPicker() {
         // ピッカー設定

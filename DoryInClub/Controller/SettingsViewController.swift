@@ -156,7 +156,8 @@ extension SettingsViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let section = SettingsSections(rawValue: indexPath.section) else { return 0 }
-        return section == .ageRange ? 96 : 44
+//        return section == .ageRange ? 96 : 44
+        return 44
     }
 
 }
@@ -185,13 +186,13 @@ extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationC
 
 
 extension SettingsViewController: SettingsCellDelegate {
-    func settingsCell(_ cell: SettingCell, wantsToUpdateAgeRangeWith sender: UISlider) {
-        if sender == cell.minAgeSlider {
-            user.minSeekingAge = Int(sender.value)
-        } else {
-            user.maxSeekingAge = Int(sender.value)
-        }
-    }
+//    func settingsCell(_ cell: SettingCell, wantsToUpdateAgeRangeWith sender: UISlider) {
+//        if sender == cell.minAgeSlider {
+//            user.minSeekingAge = Int(sender.value)
+//        } else {
+//            user.maxSeekingAge = Int(sender.value)
+//        }
+//    }
     
     func settingsCell(_ cell: SettingCell, wantsToUpdateUserWith value: String,
                       for section: SettingsSections) {
@@ -209,8 +210,8 @@ extension SettingsViewController: SettingsCellDelegate {
             user.bio = value
         case .club:
             user.club = value
-        case .ageRange:
-            break
+//        case .ageRange:
+//            break
         }
         
         print("ユーザー\(user)")
