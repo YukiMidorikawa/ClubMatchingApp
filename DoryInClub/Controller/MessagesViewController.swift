@@ -99,8 +99,8 @@ class MessagesViewController: UITableViewController {
         let icon = UIImageView(image: #imageLiteral(resourceName: "top_messages_icon").withRenderingMode(.alwaysTemplate))
         icon.tintColor = .systemPink
         navigationItem.titleView = icon
-//        navigationController?.navigationBar.barTintColor = .white
-
+        navigationController?.navigationBar.barTintColor = .white
+        navigationController?.navigationBar.shadowImage = UIImage()
         
     }
     
