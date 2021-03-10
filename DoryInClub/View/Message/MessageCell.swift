@@ -57,11 +57,11 @@ class MessageCell: UICollectionViewCell {
         
         addSubview(profileImageView)
         profileImageView.anchor(left: leftAnchor, bottom: bottomAnchor, paddingLeft: 8, paddingBottom: -4)
-        profileImageView.setDimensions(height: 32, width: 32)
-        profileImageView.layer.cornerRadius = 32/2
+        profileImageView.setDimensions(height: 36, width: 36)
+        profileImageView.layer.cornerRadius = 36/2
         
         addSubview(bubbleContainer)
-        bubbleContainer.layer.cornerRadius = 12
+        bubbleContainer.layer.cornerRadius = 21
         bubbleContainer.anchor(top: topAnchor, bottom: bottomAnchor)
         bubbleContainer.widthAnchor.constraint(lessThanOrEqualToConstant: 250).isActive = true
         

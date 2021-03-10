@@ -83,16 +83,17 @@ class ChatViewController: UICollectionViewController {
     
     func configureUI() {
         collectionView.backgroundColor = .white
-//        self.navigationItem.title = user.name
+        
         let imageUrl = URL(string: user.imageURLs[0])
         profileButton.sd_setImage(with: imageUrl, for: .normal)
         profileButton.setDimensions(height: 30, width: 30)
         profileButton.layer.cornerRadius = 30 / 2
-        self.navigationItem.titleView = profileButton
         
-//        let alertButton = UIBarButtonItem(barButtonSystemItem: .done,
-//                                          target: self,
-//                                          action: #selector(hundleDone))
+        navigationItem.titleView = profileButton
+        navigationController?.navigationBar.tintColor = .systemPink
+        navigationController?.navigationBar.barTintColor = .white
+        navigationController?.navigationBar.shadowImage = UIImage()
+
         let alertButton = UIBarButtonItem(title: "通報", style: .plain,
                                           target: self, action: #selector(hundleDone))
         self.navigationItem.rightBarButtonItem = alertButton
