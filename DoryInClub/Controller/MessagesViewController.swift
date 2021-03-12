@@ -17,6 +17,7 @@ class MessagesViewController: UITableViewController {
     private let headerView = MatchHeader()
     private var conversations = [Conversation]()
     private var conversationsDictionary = [String: Conversation]()
+    private var cell = UsersCell()
     
     // MARK: - Lifecycle
     
@@ -27,13 +28,15 @@ class MessagesViewController: UITableViewController {
     
     override func viewDidLoad() {
         configureTableView()
-//        configureNavigationBar()
+        configureNavigationBar()
         fetchMatches()
         fetchConversations()
+        fetchCheckIsRead(forUser: user)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         configureNavigationBar()
+        fetchCheckIsRead(forUser: user)
     }
     
     required init?(coder: NSCoder) {
@@ -69,6 +72,12 @@ class MessagesViewController: UITableViewController {
     
     func updateRead(forUser user: User) {
         Service.updateRead(wantToCheckWith: user)
+    }
+    
+    func fetchCheckIsRead(forUser user: User) {
+        Service.checkRead(forChatWith: user) { (isRead) in
+            self.cell.unreadView.isHidden = isRead
+        }
     }
 
     // MARK: - Helpers
@@ -121,6 +130,7 @@ extension MessagesViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! UsersCell
         cell.conversation = conversations[indexPath.row]
+        fetchCheckIsRead(forUser: user)
         return cell
     }
 }
@@ -164,3 +174,12 @@ extension MessagesViewController: MatchHeaderDelegate {
     }
 
 }
+
+// MARK: - UsersCellDelegate
+
+extension MessagesViewController: UsersCellDelegate {
+    func usersCell(_ cell: UsersCell, wantsToCheck user: User) {
+        fetchCheckIsRead(forUser: user)
+    }
+}
+
