@@ -17,7 +17,8 @@ class MessagesViewController: UITableViewController {
     private let headerView = MatchHeader()
     private var conversations = [Conversation]()
     private var conversationsDictionary = [String: Conversation]()
-    private var cell = UsersCell()
+    private var isReadArray = [Bool]()
+    let cell = UsersCell()
     
     // MARK: - Lifecycle
     
@@ -31,12 +32,11 @@ class MessagesViewController: UITableViewController {
         configureNavigationBar()
         fetchMatches()
         fetchConversations()
-        fetchCheckIsRead(forUser: user)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         configureNavigationBar()
-        fetchCheckIsRead(forUser: user)
+        fetchConversations()
     }
     
     required init?(coder: NSCoder) {
@@ -63,6 +63,17 @@ class MessagesViewController: UITableViewController {
             conversations.forEach { (conversation) in
                 let message = conversation.message
                 self.conversationsDictionary[message.chatPartnerId] = conversation
+                //ここに処理を書く
+                Service.checkIsRead(forChatWith: conversation.user) { (isRead) in
+                    self.isReadArray.append(isRead)
+                    print("=====\(self.isReadArray)")
+                    print("呼ばれる順番3")
+                    //これでは反映されない
+                    self.cell.unreadView.isHidden = isRead
+                    //falseにはなっている
+                    print("======\(self.cell.unreadView.isHidden)")
+                    
+                }
             }
             self.showLoader(false)
             self.conversations = Array(self.conversationsDictionary.values)
@@ -72,12 +83,6 @@ class MessagesViewController: UITableViewController {
     
     func updateRead(forUser user: User) {
         Service.updateRead(wantToCheckWith: user)
-    }
-    
-    func fetchCheckIsRead(forUser user: User) {
-        Service.checkRead(forChatWith: user) { (isRead) in
-            self.cell.unreadView.isHidden = isRead
-        }
     }
 
     // MARK: - Helpers
@@ -130,7 +135,9 @@ extension MessagesViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! UsersCell
         cell.conversation = conversations[indexPath.row]
-        fetchCheckIsRead(forUser: user)
+        print("=====\(isReadArray)")
+//        cell.unreadView.isHidden = isReadArray[indexPath.row]
+        print("呼ばれる順番2")
         return cell
     }
 }
@@ -179,7 +186,7 @@ extension MessagesViewController: MatchHeaderDelegate {
 
 extension MessagesViewController: UsersCellDelegate {
     func usersCell(_ cell: UsersCell, wantsToCheck user: User) {
-        fetchCheckIsRead(forUser: user)
+        print("===")
     }
 }
 

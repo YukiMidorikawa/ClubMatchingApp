@@ -94,12 +94,7 @@ class UsersCell: UITableViewCell {
     }
     
     // MARK: -API
-//    func checkRead() {
-//        guard let user = conversation?.user else { return }
-//        Service.checkRead(forChatWith: user) { (isRead) in
-//            self.unreadView.isHidden = isRead
-//        }
-//    }
+
     
     // MARK: - Helper
     func configure() {
@@ -111,8 +106,9 @@ class UsersCell: UITableViewCell {
         
         timestampLabel.text = viewModel.timestamp
         profileImageView.sd_setImage(with: viewModel.profileImageUrl)
-        
-//        checkRead()
+                
+        print("呼ばれる順番1")
+    
     }
 
     
