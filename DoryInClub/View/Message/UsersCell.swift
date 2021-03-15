@@ -19,6 +19,8 @@ class UsersCell: UITableViewCell {
         didSet { configure() }
     }
     
+    var isRead: Bool = true
+    
     private let profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.backgroundColor = .lightGray
@@ -85,7 +87,6 @@ class UsersCell: UITableViewCell {
         unreadView.layer.cornerRadius = 20 / 2
         unreadView.anchor(left: leftAnchor, paddingLeft: 70)
         unreadView.centerY(inView: self)
-        unreadView.isHidden = true
 
     }
     
@@ -108,6 +109,8 @@ class UsersCell: UITableViewCell {
         profileImageView.sd_setImage(with: viewModel.profileImageUrl)
                 
         print("呼ばれる順番1")
+        print(isRead)
+        unreadView.isHidden = isRead
     
     }
 

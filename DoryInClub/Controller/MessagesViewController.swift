@@ -17,8 +17,7 @@ class MessagesViewController: UITableViewController {
     private let headerView = MatchHeader()
     private var conversations = [Conversation]()
     private var conversationsDictionary = [String: Conversation]()
-    private var isReadArray = [Bool]()
-    let cell = UsersCell()
+    private var isReadList = [Bool]()
     
     // MARK: - Lifecycle
     
@@ -65,14 +64,10 @@ class MessagesViewController: UITableViewController {
                 self.conversationsDictionary[message.chatPartnerId] = conversation
                 //ここに処理を書く
                 Service.checkIsRead(forChatWith: conversation.user) { (isRead) in
-                    self.isReadArray.append(isRead)
-                    print("=====\(self.isReadArray)")
-                    print("呼ばれる順番3")
-                    //これでは反映されない
-                    self.cell.unreadView.isHidden = isRead
-                    //falseにはなっている
-                    print("======\(self.cell.unreadView.isHidden)")
-                    
+                    self.isReadList.append(isRead)
+                    self.tableView.reloadData()
+                    print("ここでAPI通信")
+                    print(self.isReadList)
                 }
             }
             self.showLoader(false)
@@ -135,8 +130,9 @@ extension MessagesViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! UsersCell
         cell.conversation = conversations[indexPath.row]
-        print("=====\(isReadArray)")
-//        cell.unreadView.isHidden = isReadArray[indexPath.row]
+        if isReadList.count > indexPath.row {
+            cell.isRead = isReadList[indexPath.row]
+        }
         print("呼ばれる順番2")
         return cell
     }
