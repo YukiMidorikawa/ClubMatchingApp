@@ -108,8 +108,7 @@ class UsersCell: UITableViewCell {
         timestampLabel.text = viewModel.timestamp
         profileImageView.sd_setImage(with: viewModel.profileImageUrl)
                 
-        print("呼ばれる順番1")
-        print(isRead)
+        print("呼ばれる順番1、反映されるのは\(isRead)")
         unreadView.isHidden = isRead
     
     }

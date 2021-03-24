@@ -18,6 +18,7 @@ class MessagesViewController: UITableViewController {
     private var conversations = [Conversation]()
     private var conversationsDictionary = [String: Conversation]()
     private var isReadList = [Bool]()
+    private var isRead = true
     
     // MARK: - Lifecycle
     
@@ -66,8 +67,7 @@ class MessagesViewController: UITableViewController {
                 Service.checkIsRead(forChatWith: conversation.user) { (isRead) in
                     self.isReadList.append(isRead)
                     self.tableView.reloadData()
-                    print("ここでAPI通信")
-                    print(self.isReadList)
+                    print("ここでAPI通信\(self.isReadList)")
                 }
             }
             self.showLoader(false)
@@ -132,8 +132,9 @@ extension MessagesViewController {
         cell.conversation = conversations[indexPath.row]
         if isReadList.count > indexPath.row {
             cell.isRead = isReadList[indexPath.row]
+            print("呼ばれる順番2、値を渡す＝\(isReadList[indexPath.row])")
+            cell.configure()
         }
-        print("呼ばれる順番2")
         return cell
     }
 }

@@ -141,6 +141,7 @@ struct Service {
                 if direction == currentUserUid {
                     completion(read)
                 }
+                completion(true)
 //                if read == false && direction == currentUserUid {
 //                    completion(read)
 //                }
