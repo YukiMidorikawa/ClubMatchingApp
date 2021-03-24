@@ -17,6 +17,8 @@ class MessagesViewController: UITableViewController {
     private let headerView = MatchHeader()
     private var conversations = [Conversation]()
     private var conversationsDictionary = [String: Conversation]()
+    private var isReadList = [Bool]()
+    private var isRead = true
     
     // MARK: - Lifecycle
     
@@ -27,13 +29,14 @@ class MessagesViewController: UITableViewController {
     
     override func viewDidLoad() {
         configureTableView()
-//        configureNavigationBar()
+        configureNavigationBar()
         fetchMatches()
         fetchConversations()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         configureNavigationBar()
+        fetchConversations()
     }
     
     required init?(coder: NSCoder) {
@@ -60,6 +63,12 @@ class MessagesViewController: UITableViewController {
             conversations.forEach { (conversation) in
                 let message = conversation.message
                 self.conversationsDictionary[message.chatPartnerId] = conversation
+                //ここに処理を書く
+                Service.checkIsRead(forChatWith: conversation.user) { (isRead) in
+                    self.isReadList.append(isRead)
+                    self.tableView.reloadData()
+                    print("ここでAPI通信\(self.isReadList)")
+                }
             }
             self.showLoader(false)
             self.conversations = Array(self.conversationsDictionary.values)
@@ -121,6 +130,11 @@ extension MessagesViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! UsersCell
         cell.conversation = conversations[indexPath.row]
+        if isReadList.count > indexPath.row {
+            cell.isRead = isReadList[indexPath.row]
+            print("呼ばれる順番2、値を渡す＝\(isReadList[indexPath.row])")
+            cell.configure()
+        }
         return cell
     }
 }
@@ -164,3 +178,12 @@ extension MessagesViewController: MatchHeaderDelegate {
     }
 
 }
+
+// MARK: - UsersCellDelegate
+
+extension MessagesViewController: UsersCellDelegate {
+    func usersCell(_ cell: UsersCell, wantsToCheck user: User) {
+        print("===")
+    }
+}
+

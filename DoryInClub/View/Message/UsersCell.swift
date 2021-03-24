@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol UsersCellDelegate: class {
+    func usersCell(_ cell: UsersCell, wantsToCheck user: User)
+}
+
 class UsersCell: UITableViewCell {
     
     // MARK: - Propaties
@@ -14,6 +18,8 @@ class UsersCell: UITableViewCell {
     var conversation: Conversation? {
         didSet { configure() }
     }
+    
+    var isRead: Bool = true
     
     private let profileImageView: UIImageView = {
         let iv = UIImageView()
@@ -44,7 +50,7 @@ class UsersCell: UITableViewCell {
         return label
     }()
     
-    private let unreadView: UIView = {
+    let unreadView: UIView = {
         let view = UIView()
         view.clipsToBounds = true
         view.backgroundColor = .systemPink
@@ -81,7 +87,6 @@ class UsersCell: UITableViewCell {
         unreadView.layer.cornerRadius = 20 / 2
         unreadView.anchor(left: leftAnchor, paddingLeft: 70)
         unreadView.centerY(inView: self)
-        unreadView.isHidden = true
 
     }
     
@@ -90,12 +95,7 @@ class UsersCell: UITableViewCell {
     }
     
     // MARK: -API
-    func checkRead() {
-        guard let user = conversation?.user else { return }
-        Service.checkRead(forChatWith: user) { (isRead) in
-            self.unreadView.isHidden = isRead
-        }
-    }
+
     
     // MARK: - Helper
     func configure() {
@@ -107,8 +107,10 @@ class UsersCell: UITableViewCell {
         
         timestampLabel.text = viewModel.timestamp
         profileImageView.sd_setImage(with: viewModel.profileImageUrl)
-        
-        checkRead()
+                
+        print("呼ばれる順番1、反映されるのは\(isRead)")
+        unreadView.isHidden = isRead
+    
     }
 
     
