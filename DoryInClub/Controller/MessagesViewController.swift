@@ -31,7 +31,6 @@ class MessagesViewController: UITableViewController {
         configureTableView()
         configureNavigationBar()
         fetchMatches()
-        fetchConversations()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -63,17 +62,26 @@ class MessagesViewController: UITableViewController {
             conversations.forEach { (conversation) in
                 let message = conversation.message
                 self.conversationsDictionary[message.chatPartnerId] = conversation
-                //ここに処理を書く
-                Service.checkIsRead(forChatWith: conversation.user) { (isRead) in
-                    self.isReadList.append(isRead)
+            }
+            self.conversations = Array(self.conversationsDictionary.values)
+            self.fetchIsReadList()
+        }
+    }
+    
+    func fetchIsReadList() {
+        self.isReadList.removeAll()
+        conversationsDictionary.values.forEach({ conversation in
+            Service.checkIsRead(forChatWith: conversation.user) { (isRead) in
+                self.isReadList.append(isRead)
+                print("👀self.isReadList.count: \(self.isReadList.count)")
+                print("👀self.conversationsDictionary.count: \(self.conversationsDictionary.count)")
+                if self.isReadList.count == self.conversationsDictionary.count {
                     self.tableView.reloadData()
-                    print("ここでAPI通信\(self.isReadList)")
+                    self.showLoader(false)
+                    print("👀self.isReadList: \(self.isReadList)!")
                 }
             }
-            self.showLoader(false)
-            self.conversations = Array(self.conversationsDictionary.values)
-            self.tableView.reloadData()
-        }
+        })
     }
     
     func updateRead(forUser user: User) {
