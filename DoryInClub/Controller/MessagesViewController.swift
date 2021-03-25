@@ -72,16 +72,17 @@ class MessagesViewController: UITableViewController {
         self.isReadList.removeAll()
         conversationsDictionary.values.forEach({ conversation in
             Service.checkIsRead(forChatWith: conversation.user) { (isRead) in
+                guard self.conversationsDictionary.count >= self.isReadList.count else { return }
                 self.isReadList.append(isRead)
-                print("👀self.isReadList.count: \(self.isReadList.count)")
-                print("👀self.conversationsDictionary.count: \(self.conversationsDictionary.count)")
-                if self.isReadList.count == self.conversationsDictionary.count {
-                    self.tableView.reloadData()
-                    self.showLoader(false)
-                    print("👀self.isReadList: \(self.isReadList)!")
-                }
+                let isLatestData = self.isReadList.count == self.conversationsDictionary.count
+                if isLatestData { self.fetchReadCompletion() }
             }
         })
+    }
+    
+    func fetchReadCompletion() {
+        tableView.reloadData()
+        showLoader(false)
     }
     
     func updateRead(forUser user: User) {

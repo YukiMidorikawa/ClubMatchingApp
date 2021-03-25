@@ -138,13 +138,8 @@ struct Service {
                 guard let data = snapshot else { return }
                 guard let read = data["isRead"] as? Bool else { return }
                 guard let direction = data["toId"] as? String else { return }
-                if direction == currentUserUid {
-                    completion(read)
-                }
-                completion(true)
-//                if read == false && direction == currentUserUid {
-//                    completion(read)
-//                }
+                let isRead = direction == currentUserUid && read
+                completion(isRead)
             }
     }
     
