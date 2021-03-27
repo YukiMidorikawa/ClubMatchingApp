@@ -132,9 +132,10 @@ struct Service {
     
     static func checkIsRead(forChatWith user: User, completion: @escaping(Bool) -> Void) {
         guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
-        
+        print("👀checkIsRead")
         COLLECTION_MATCHES_MESSAGES.document(currentUserUid).collection("recent-messages")
             .document(user.uid).getDocument { (snapshot, error) in
+                print("👀COLLECTION_MATCHES_MESSAGES")
                 guard let data = snapshot else { return }
                 guard let read = data["isRead"] as? Bool else { return }
                 guard let direction = data["toId"] as? String else { return }

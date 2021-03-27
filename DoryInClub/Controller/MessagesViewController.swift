@@ -58,7 +58,9 @@ class MessagesViewController: UITableViewController {
     
     func fetchConversations() {
         showLoader(true)
+        print("👀fetchConversations()")
         Service.fetchConversations { (conversations) in
+            print("👀conversations.count: \(conversations.count)")
             conversations.forEach { (conversation) in
                 let message = conversation.message
                 self.conversationsDictionary[message.chatPartnerId] = conversation
