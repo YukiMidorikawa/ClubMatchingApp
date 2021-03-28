@@ -66,6 +66,7 @@ class MessagesViewController: UITableViewController {
                 self.conversationsDictionary[message.chatPartnerId] = conversation
             }
             self.conversations = Array(self.conversationsDictionary.values)
+            //ここでconversationが最後のものだけにフィルタリング？
             self.fetchIsReadList()
         }
     }
@@ -143,6 +144,7 @@ extension MessagesViewController {
         cell.conversation = conversations[indexPath.row]
         if isReadList.count > indexPath.row {
             cell.isRead = isReadList[indexPath.row]
+            print("isReadList = \(self.isReadList)")
             print("呼ばれる順番2、値を渡す＝\(isReadList[indexPath.row])")
             cell.configure()
         }
