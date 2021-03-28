@@ -67,7 +67,11 @@ class MessagesViewController: UITableViewController {
             }
             self.conversations = Array(self.conversationsDictionary.values)
             //ここでconversationが最後のものだけにフィルタリング？
-            self.fetchIsReadList()
+            //今回の場合だとこれで整合性が取れる
+            //この2の部分を普遍的なものにする
+            if self.conversations.count == 2 {
+                self.fetchIsReadList()
+            }
         }
     }
     
@@ -76,6 +80,8 @@ class MessagesViewController: UITableViewController {
         conversationsDictionary.values.forEach({ conversation in
             Service.checkIsRead(forChatWith: conversation.user) { (isRead) in
                 guard self.conversationsDictionary.count >= self.isReadList.count else { return }
+                print("👀self.conversationsDictionary.count: \(self.conversationsDictionary.count)")
+                print("👀self.isReadList.count: \(self.isReadList.count)")
                 self.isReadList.append(isRead)
                 let isLatestData = self.isReadList.count == self.conversationsDictionary.count
                 if isLatestData { self.fetchReadCompletion() }
