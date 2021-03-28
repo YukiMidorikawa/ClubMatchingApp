@@ -31,7 +31,6 @@ class MessagesViewController: UITableViewController {
         configureTableView()
         configureNavigationBar()
         fetchMatches()
-        fetchConversations()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -59,21 +58,40 @@ class MessagesViewController: UITableViewController {
     
     func fetchConversations() {
         showLoader(true)
+        print("👀fetchConversations()")
         Service.fetchConversations { (conversations) in
+            print("👀conversations.count: \(conversations.count)")
             conversations.forEach { (conversation) in
                 let message = conversation.message
                 self.conversationsDictionary[message.chatPartnerId] = conversation
-                //ここに処理を書く
-                Service.checkIsRead(forChatWith: conversation.user) { (isRead) in
-                    self.isReadList.append(isRead)
-                    self.tableView.reloadData()
-                    print("ここでAPI通信\(self.isReadList)")
-                }
             }
-            self.showLoader(false)
             self.conversations = Array(self.conversationsDictionary.values)
-            self.tableView.reloadData()
+            //ここでconversationが最後のものだけにフィルタリング？
+            //今回の場合だとこれで整合性が取れる
+            //この2の部分を普遍的なものにする
+            if self.conversations.count == 2 {
+                self.fetchIsReadList()
+            }
         }
+    }
+    
+    func fetchIsReadList() {
+        self.isReadList.removeAll()
+        conversationsDictionary.values.forEach({ conversation in
+            Service.checkIsRead(forChatWith: conversation.user) { (isRead) in
+                guard self.conversationsDictionary.count >= self.isReadList.count else { return }
+                print("👀self.conversationsDictionary.count: \(self.conversationsDictionary.count)")
+                print("👀self.isReadList.count: \(self.isReadList.count)")
+                self.isReadList.append(isRead)
+                let isLatestData = self.isReadList.count == self.conversationsDictionary.count
+                if isLatestData { self.fetchReadCompletion() }
+            }
+        })
+    }
+    
+    func fetchReadCompletion() {
+        tableView.reloadData()
+        showLoader(false)
     }
     
     func updateRead(forUser user: User) {
@@ -132,6 +150,7 @@ extension MessagesViewController {
         cell.conversation = conversations[indexPath.row]
         if isReadList.count > indexPath.row {
             cell.isRead = isReadList[indexPath.row]
+            print("isReadList = \(self.isReadList)")
             print("呼ばれる順番2、値を渡す＝\(isReadList[indexPath.row])")
             cell.configure()
         }
