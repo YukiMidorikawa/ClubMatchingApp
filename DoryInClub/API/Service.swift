@@ -130,20 +130,6 @@ struct Service {
             }
     }
     
-    static func checkRead(forChatWith user: User, completion: @escaping(Bool) -> Void) {
-        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
-        
-        COLLECTION_MATCHES_MESSAGES.document(currentUserUid).collection("recent-messages")
-            .document(user.uid).getDocument { (snapshot, error) in
-                guard let data = snapshot else { return }
-                guard let read = data["isRead"] as? Bool else { return }
-                guard let direction = data["toId"] as? String else { return }
-                if read == false && direction == currentUserUid {
-                    completion(read)
-                }
-            }
-    }
-    
     // MARK: -Uploads
     static func saveUserData(user: User, copletion: @escaping(Error?) -> Void) {
         

@@ -25,6 +25,11 @@ struct UsersViewModel {
         return dateFomatter.string(from: date)
     }
     
+    var isRead: Bool {
+        let isRead = conversation.message.isRead
+        return isRead
+    }
+    
     // MARK: - Lifecycle
     
     init(conversation: Conversation) {
