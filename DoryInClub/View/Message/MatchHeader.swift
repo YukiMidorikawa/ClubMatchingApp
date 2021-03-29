@@ -89,6 +89,7 @@ extension MatchHeader: UICollectionViewDelegate {
         //最初false見たらtrue
         updateTouch(wantsToUpdate: uid)
         delegate?.matchHeader(self, wantsToStartChatWith: uid)
+        self.matches.remove(at: indexPath.row)
     }
 }
 

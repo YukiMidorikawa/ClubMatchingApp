@@ -15,7 +15,7 @@ class MatchCell: UICollectionViewCell {
         didSet {
             userNameLabel.text = viewModel.nameText
             profileImageView.sd_setImage(with: viewModel.profileImageUrl)
-            checkTouch()
+//            checkTouch()
         }
     }
     
@@ -67,7 +67,7 @@ class MatchCell: UICollectionViewCell {
         unreadView.layer.cornerRadius = 20 / 2
         unreadView.centerY(inView: profileImageView)
         unreadView.anchor(right: rightAnchor, paddingRight: 0)
-        unreadView.isHidden = true
+//        unreadView.isHidden = true
 
     }
     
@@ -76,11 +76,11 @@ class MatchCell: UICollectionViewCell {
     }
     
     // MARK: -API
-    func checkTouch() {
-        Service.checkTouch(forMatches: viewModel.uid) { (touch) in
-            self.unreadView.isHidden = touch
-        }
-    }
+//    func checkTouch() {
+//        Service.checkTouch(forMatches: viewModel.uid) { (touch) in
+//            self.unreadView.isHidden = touch
+//        }
+//    }
 
     
     
