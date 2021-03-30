@@ -57,10 +57,6 @@ class MatchHeader: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: -API
-    func updateTouch(wantsToUpdate uid: String) {
-        Service.updateTouch(forMatches: uid)
-    }
 
 }
 
@@ -86,8 +82,6 @@ extension MatchHeader: UICollectionViewDataSource {
 extension MatchHeader: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let uid = matches[indexPath.row].uid
-        //最初false見たらtrue
-        updateTouch(wantsToUpdate: uid)
         delegate?.matchHeader(self, wantsToStartChatWith: uid)
         self.matches.remove(at: indexPath.row)
     }

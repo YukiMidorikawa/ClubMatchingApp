@@ -249,11 +249,11 @@ struct Service {
         
     }
     
-    static func updateTouch(forMatches uid: String) {
-        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
-        COLLECTION_MATCHES_MESSAGES.document(currentUserUid).collection("matches")
-            .document(uid).updateData(["isTouch": true])
-    }
+//    static func updateTouch(forMatches uid: String) {
+//        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
+//        COLLECTION_MATCHES_MESSAGES.document(currentUserUid).collection("matches")
+//            .document(uid).updateData(["isTouch": true])
+//    }
     
     static func updateRead(wantToCheckWith user: User) {
         guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
