@@ -15,7 +15,7 @@ class MatchCell: UICollectionViewCell {
         didSet {
             userNameLabel.text = viewModel.nameText
             profileImageView.sd_setImage(with: viewModel.profileImageUrl)
-            checkTouch()
+            unreadView.isHidden = viewModel.isTouch
         }
     }
     
@@ -74,14 +74,6 @@ class MatchCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: -API
-    func checkTouch() {
-        Service.checkTouch(forMatches: viewModel.uid) { (touch) in
-            self.unreadView.isHidden = touch
-        }
-    }
-
     
     
 }

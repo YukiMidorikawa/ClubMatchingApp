@@ -12,10 +12,12 @@ struct MatchCellViewModel {
     let nameText: String
     let profileImageUrl: URL?
     let uid: String
+    let isTouch: Bool
     
     init(match: Match) {
         nameText = match.name
         profileImageUrl = URL(string: match.profileImageUrl)
         uid = match.uid
+        isTouch = match.isTouch
     }
 }

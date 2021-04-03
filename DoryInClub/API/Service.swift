@@ -119,17 +119,6 @@ struct Service {
         
     }
     
-    static func checkTouch(forMatches uid: String, completion: @escaping(Bool) -> Void) {
-        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
-        
-        COLLECTION_MATCHES_MESSAGES.document(currentUserUid).collection("matches")
-            .document(uid).getDocument { (snapshot, error) in
-                guard let data = snapshot else { return }
-                guard let read = data["isTouch"] as? Bool else { return }
-                completion(read)
-            }
-    }
-    
     // MARK: -Uploads
     static func saveUserData(user: User, copletion: @escaping(Error?) -> Void) {
         
