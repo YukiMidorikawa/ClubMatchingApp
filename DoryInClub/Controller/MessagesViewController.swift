@@ -27,8 +27,6 @@ class MessagesViewController: UITableViewController {
     
     override func viewDidLoad() {
         configureTableView()
-//        configureNavigationBar()
-//        fetchMatches()
         fetchConversations()
     }
     
