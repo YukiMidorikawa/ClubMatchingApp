@@ -184,6 +184,14 @@ struct Service {
         
     }
     
+    static func updateMatch(matchedUser: User) {
+        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
+        COLLECTION_MATCHES_MESSAGES.document(currentUserUid)
+            .collection("matches").document(matchedUser.uid).delete()
+        COLLECTION_MATCHES_MESSAGES.document(matchedUser.uid)
+            .collection("matches").document(currentUserUid).delete()
+    }
+    
     static func uploadMessage(_ message: String, to user: User, completion: ((Error?) -> Void)?) {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         
