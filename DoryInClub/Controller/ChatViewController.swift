@@ -180,11 +180,11 @@ extension ChatViewController: CustomInputAccessoryViewDelagate {
         
         Service.uploadMessage(message, to: user) { (error) in
             if let error = error {
-                print("ああああ\(error)")
+                print("エラー、内容＝\(error)")
                 return
             }
-            
             inputView.clearMessageText()
+            Service.updateMatch(matchedUser: self.user)
         }
     }
 }
