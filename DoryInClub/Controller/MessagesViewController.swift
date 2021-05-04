@@ -26,13 +26,15 @@ class MessagesViewController: UITableViewController {
     }
     
     override func viewDidLoad() {
-        configureTableView()
-        fetchConversations()
+//        configureTableView()
+//        fetchConversations()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         configureNavigationBar()
         fetchMatches()
+        fetchConversations()
+        configureTableView()
     }
     
     required init?(coder: NSCoder) {
